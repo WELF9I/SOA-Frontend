@@ -1,1 +1,28 @@
-<p>liste-matieres works!</p>
+<div class="container">
+    <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+        <app-update-matiere  
+             [matiere]="updatedMatiere" 
+             [ajout]="ajout"
+             (matiereUpdated)="matiereUpdated($event)">
+        </app-update-matiere>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom Matière</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let matiere of matieres">
+                    <tr>
+                        <td>{{matiere.id}}</td>
+                        <td>{{matiere.name}}</td>
+                        <td><a class="btn btn-success" (click)="updateMatiere(matiere)">Editer</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

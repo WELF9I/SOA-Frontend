@@ -1,21 +1,25 @@
 <div class="container">
+
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2 mt-2 ">
+            <label>Rechercher par Titre du Cours</label>
+            <input #title [(ngModel)]="searchTerm" name="searchTerm" class="form-control" placeholder="Entrez le titre du cours">
+        </div>
+    </form>
+
     <div class="card shadow mb-4">
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
                     <tr> <th>Id</th><th>Titre</th> <th>Durée (heures)</th>  <th>Date de Création</th><th>Matière</th> </tr>
                 </thead>
-                <tbody *ngFor="let cours of courses">
+                <tbody *ngFor="let cours of courses | searchFilter:searchTerm">
                     <tr>
                         <td>{{cours.id}}</td>
                         <td>{{cours.title}}</td>
                         <td>{{cours.duration}}</td>
                         <td>{{cours.createdDate | date:'dd/MM/yyyy'}}</td>
-                        <td>{{cours.matiere.name}}</td> 
-                        <td><a *ngIf="authService.isAdmin()"
-                             class="btn btn-danger" (click)="supprimerCours(cours)">Supprimer</a></td>
-                        <td><a *ngIf="authService.isAdmin()"
-                             class="btn btn-success" [routerLink]="['/updateCours',cours.id]">Modifier</a></td>
+                        <td>{{cours.matiere?.name}}</td> 
                     </tr>
                 </tbody>
             </table>

@@ -17,13 +17,13 @@ export class AppComponent implements OnInit {
     let loggedUser: string;
     isloggedin = localStorage.getItem('isloggedIn')!;
     loggedUser = localStorage.getItem('loggedUser')!;
-    if (isloggedin !== "true" || !loggedUser) {
+    if (isloggedin != "true" || !loggedUser)
       this.router.navigate(['/login']);
-    }
+    else
+      this.authService.setLoggedUserFromLocalStorage(loggedUser);
   }
 
-  onLogout() {
+  onLogout(){
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

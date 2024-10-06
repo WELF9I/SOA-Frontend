@@ -1,1 +1,37 @@
-<p>update-cours works!</p>
+<div class="container">
+    <div>
+        <h2>Modifier un Cours :</h2>
+    </div>
+    <form>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>ID Cours</label>
+            <input readonly type="text" [(ngModel)]="currentCours.id" name="idCours" class="form-control">
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Titre du Cours</label>
+            <input type="text" [(ngModel)]="currentCours.title" name="title" class="form-control">
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>Durée (heures)</label>
+            <input type="number" [(ngModel)]="currentCours.duration" name="duration" class="form-control">
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Date de création</label>
+            <input type="date" [ngModel]="currentCours.createdDate | date: 'yyyy-MM-dd'"
+            (ngModelChange)="currentCours.createdDate = $event" name="createdDate" class="form-control">
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Matière</label>
+            <select class="form-control form-control-lg" id="idMatiere" name="idMatiere" [(ngModel)]="updatedMatiereId">
+                <option *ngFor="let matiere of matieres" [value]="matiere.id">
+                    {{matiere.name}}
+                </option>  
+            </select>
+        </div> 
+
+        <div class="mt-2">
+            <button type="submit" (click)="updateCours()" class="btn btn-success">Modifier</button>
+        </div>
+    </form>
+</div>

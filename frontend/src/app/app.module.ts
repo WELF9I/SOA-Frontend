@@ -9,10 +9,11 @@ import { ListeMatieresComponent } from './liste-matieres/liste-matieres.componen
 import { LoginComponent } from './login/login.component';
 import { CoursesComponent } from './courses/courses.component';
 import { RechercheParMatiereComponent } from './recherche-par-matiere/recherche-par-matiere.component';
-import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
 import { UpdateMatiereComponent } from './update-matiere/update-matiere.component';
 import { UpdateCoursComponent } from './update-cours/update-cours.component';
 import { FormsModule } from '@angular/forms';
+import { RechercheParTitleComponent } from './recherche-par-title/recherche-par-title.component';
+import { SearchFilterPipe } from './search-filter.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,9 +23,10 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     CoursesComponent,
     RechercheParMatiereComponent,
-    RechercheParNomComponent,
     UpdateMatiereComponent,
-    UpdateCoursComponent
+    UpdateCoursComponent,
+    RechercheParTitleComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,

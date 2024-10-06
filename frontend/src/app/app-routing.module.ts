@@ -7,16 +7,15 @@ import { LoginComponent } from './login/login.component';
 import { CoursGuard } from './guards/cours.guard'; 
 import { CoursesComponent } from './courses/courses.component';
 import { RechercheParMatiereComponent } from './recherche-par-matiere/recherche-par-matiere.component';
-import { RechercheParNomComponent } from './recherche-par-nom/recherche-par-nom.component';
-import { UpdateCoursComponent } from './update-cours/update-cours.component';
-import { UpdateMatiereComponent } from './update-matiere/update-matiere.component';
+import { RechercheParTitleComponent } from './recherche-par-title/recherche-par-title.component';
+import { UpdateCoursComponent } from './update-cours/update-cours.component';;
 
 const routes: Routes = [
   {path: "courses", component: CoursesComponent},
   {path: "add-cours", component: AddCoursComponent, canActivate: [CoursGuard]},
   {path: "updateCours/:id", component: UpdateCoursComponent},
   {path: "rechercheParMatiere", component: RechercheParMatiereComponent},
-  {path: "rechercheParNom", component: RechercheParNomComponent},
+  {path: "rechercheParTitle", component: RechercheParTitleComponent},
   {path: "listeMatieres", component: ListeMatieresComponent},
   {path: 'login', component: LoginComponent},
   {path: 'app-forbidden', component: ForbiddenComponent},
