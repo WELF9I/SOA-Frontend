@@ -11,6 +11,7 @@ import { RechercheParTitleComponent } from './recherche-par-title/recherche-par-
 import { UpdateCoursComponent } from './update-cours/update-cours.component';;
 
 const routes: Routes = [
+  {path: 'login', component: LoginComponent},
   {path: "courses", component: CoursesComponent},
   {path: "add-cours", component: AddCoursComponent, canActivate: [CoursGuard]},
   {path: "updateCours/:id", component: UpdateCoursComponent},

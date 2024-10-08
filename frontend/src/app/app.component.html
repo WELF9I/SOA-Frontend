@@ -24,7 +24,7 @@
           <a *ngIf="authService.isAdmin()" class="dropdown-item" routerLink="add-cours">Ajouter</a>
           <a class="dropdown-item" href="#">Lister</a>
           <a class="dropdown-item" routerLink="/rechercheParMatiere">Recherche Par Matière</a>
-          <a class="dropdown-item" routerLink="/rechercheParNom">Recherche Par Nom</a>
+          <a class="dropdown-item" routerLink="/rechercheParTitle">Recherche Par Title</a>
           <a class="dropdown-item" routerLink="/listeMatieres">Gestion des matières</a>
         </div>
       </li>
@@ -37,7 +37,7 @@
         </a>
         <div class="dropdown-menu">
           <a *ngIf="!authService.isloggedIn" class="dropdown-item" routerLink="login">login</a>
-          <a *ngIf="authService.isloggedIn" class="dropdown-item" (click)="onLogout()">logout</a>
+          <a *ngIf="authService.isloggedIn" class="dropdown-item" (click) = "onLogout()">logout</a>
           <a class="dropdown-item" href="#">Profile</a>
         </div>
       </li>
