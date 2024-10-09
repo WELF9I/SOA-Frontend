@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../model/user.model';
-
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private loggedIn = new BehaviorSubject<boolean>(false);
 
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
   users: User[] = [{"username":"admin","password":"123","roles":['ADMIN']},
                    {"username":"nadhem","password":"123","roles":['USER']} ];
 
@@ -19,10 +23,11 @@ public roles!:string[];
   SignIn(user: User): Boolean {
     let validUser: Boolean = false;
     this.users.forEach((curUser) => {
-      if (user.username == curUser.username && user.password == curUser.password) {
+      if (user.username === curUser.username && user.password === curUser.password) {
         validUser = true;
         this.loggedUser = curUser.username;
         this.isloggedIn = true;
+        this.loggedIn.next(true);
         this.roles = curUser.roles;
         localStorage.setItem('loggedUser', this.loggedUser);
         localStorage.setItem('isloggedIn', String(this.isloggedIn));

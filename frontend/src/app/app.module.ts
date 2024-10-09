@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddCoursComponent } from './add-cours/add-cours.component';
@@ -14,6 +14,7 @@ import { UpdateCoursComponent } from './update-cours/update-cours.component';
 import { FormsModule } from '@angular/forms';
 import { RechercheParTitleComponent } from './recherche-par-title/recherche-par-title.component';
 import { SearchFilterPipe } from './search-filter.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,10 +32,12 @@ import { SearchFilterPipe } from './search-filter.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

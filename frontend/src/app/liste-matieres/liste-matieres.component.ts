@@ -5,16 +5,13 @@ import { CoursService } from '../services/cours.service';
 @Component({
   selector: 'app-liste-matieres',
   templateUrl: './liste-matieres.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class ListeMatieresComponent implements OnInit {
 
   matieres!: Matiere[];
-
   ajout: boolean = true;
-
-  updatedMatiere: Matiere = { "id": 0, "name": "", "description": "", "code": "", "teacherName": "" };
+  updatedMatiere: Matiere = { "id": 0, "code": "", "description": "", "name": "", "teacherName": "" };
 
   constructor(private coursService: CoursService) { }
 
@@ -31,12 +28,26 @@ export class ListeMatieresComponent implements OnInit {
 
   matiereUpdated(matiere: Matiere) {
     console.log("Matière reçue du composant updateMatiere: ", matiere);
-    this.coursService.ajouterMatiere(matiere).subscribe(() => this.chargerMatieres());
+    if (this.ajout) {
+      this.coursService.ajouterMatiere(matiere).subscribe(() => {
+        this.chargerMatieres();
+        this.resetForm();
+      });
+    } else {
+      this.coursService.updateMatiere(matiere).subscribe(() => {
+        this.chargerMatieres();
+        this.resetForm();
+      });
+    }
   }
 
   updateMatiere(matiere: Matiere) {
-    this.updatedMatiere = matiere;
+    this.updatedMatiere = {...matiere};
     this.ajout = false;
   }
 
+  resetForm() {
+    this.updatedMatiere = { "id": 0, "code": "", "description": "", "name": "", "teacherName": "" };
+    this.ajout = true;
+  }
 }

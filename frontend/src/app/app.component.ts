@@ -8,9 +8,10 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Gestion des Cours';
+  title = 'Mes Cours';
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService,
+              private router :Router){}
 
   ngOnInit() {
     let isloggedin: string;

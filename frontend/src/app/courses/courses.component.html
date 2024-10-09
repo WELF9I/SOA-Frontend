@@ -3,7 +3,7 @@
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
-                    <tr> <th>Id</th><th>Titre</th> <th>content</th> <th>Durée (heures)</th>  <th>Date de Création</th><th>Matière</th> </tr>
+                    <tr> <th>Id</th><th>Titre</th> <th>content</th> <th>Durée (Minutes)</th> <th>Video URL</th> <th>Date de Création</th><th>Matière</th> </tr>
                 </thead>
                 <tbody *ngFor="let cours of courses">
                     <tr>
@@ -11,6 +11,7 @@
                         <td>{{cours.title}}</td>
                         <td>{{cours.content}}</td>
                         <td>{{cours.duration}}</td>
+                        <td>{{cours.videoUrl}}</td>
                         <td>{{cours.createdDate | date:'dd/MM/yyyy'}}</td>
                         <td>{{cours.matiere.name}}</td> 
                         <td><a *ngIf="authService.isAdmin()"

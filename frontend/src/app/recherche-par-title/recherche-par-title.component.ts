@@ -8,33 +8,33 @@ import { CoursService } from '../services/cours.service';
   styles: []
 })
 export class RechercheParTitleComponent implements OnInit {
+  title: string = '';
+  courses: Cours[] = [];
+  allCourses: Cours[] = [];
+  searchTerm: string = '';
 
-  title!: string;
-  courses!: Cours[];
-  allCourses!: Cours[];
-  searchTerm!: string;
-  
   constructor(private coursService: CoursService) { }
 
   ngOnInit(): void {
-    this.coursService.listeCours().subscribe(courses => {
-      console.log(courses);
-      this.courses = courses;
-      this.allCourses = courses; 
-    });
-  }
-
-  rechercherCours() {
-    this.coursService.rechercherParTitre(this.title).subscribe(courses => {
-      console.log(courses);
-      this.courses = courses;
+    this.coursService.listeCours().subscribe(items => {
+      console.log(items);
+      this.courses = items;
+      this.allCourses = items; 
     });
   }
 
   onKeyUp(filterText: string) {
-    this.courses = this.allCourses.filter(item =>
-      item.title.toLowerCase().includes(filterText.toLowerCase())
-    );
+    this.searchTerm = filterText;
+    this.filterCourses();
   }
 
+  filterCourses() {
+    if (!this.searchTerm) {
+      this.courses = this.allCourses;
+    } else {
+      this.courses = this.allCourses.filter(course =>
+        course.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  }
 }

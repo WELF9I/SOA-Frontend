@@ -42,15 +42,15 @@ export class CoursService {
 
   listeMatieres(): Observable<Matiere[]> {
     return this.http.get<Matiere[]>(this.apiURLMatiere);
-  }
+}
 
   rechercherParMatiere(idMatiere: number): Observable<Cours[]> {
+    console.log("Matiere id:", idMatiere);
     const url = `${this.apiURL}/matiere/${idMatiere}`;
     return this.http.get<Cours[]>(url);
   }
 
-  // Note: These methods are not present in your current backend controllers
-  // You may need to add them to your backend or remove them from here
+
   rechercherParTitre(titre: string): Observable<Cours[]> {
     // This endpoint doesn't exist in your current backendid
     const url = `${this.apiURL}/coursByTitre/${titre}`;
@@ -85,4 +85,5 @@ export class CoursService {
   sortMatieresByName(): Observable<Matiere[]> {
     return this.http.get<Matiere[]>(`${this.apiURLMatiere}/sort`);
   }
+  
 }

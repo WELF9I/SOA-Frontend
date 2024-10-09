@@ -9,22 +9,27 @@ import { CoursService } from '../services/cours.service';
   styles: []
 })
 export class RechercheParMatiereComponent implements OnInit {
-  IdMatiere!: number;
+  IdMatiere: number = 0; 
   matieres!: Matiere[];
   courses!: Cours[];
 
   constructor(private coursService: CoursService) { }
 
   ngOnInit(): void {
-    this.coursService.listeMatieres().subscribe(mats => {
-      this.matieres = mats;
-      console.log(mats);
+    this.coursService.listeMatieres().subscribe(matiere => {
+      this.matieres = matiere;
+      if (this.matieres.length > 0) {
+        this.IdMatiere = this.matieres[0].id;
+        this.onChange(); 
+      }
     });
   }
 
   onChange() {
-    this.coursService.rechercherParMatiere(this.IdMatiere).subscribe(courses => {
-      this.courses = courses;
-    });
+    if (this.IdMatiere) {
+      this.coursService.rechercherParMatiere(this.IdMatiere).subscribe(courses => {
+        this.courses = courses;
+      });
+    }
   }
 }

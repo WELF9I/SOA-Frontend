@@ -1,28 +1,37 @@
 <div class="container">
-
-    <form class="form-inline">
-        <div class="form-group mx-sm-3 mb-2 mt-2 ">
-            <label>Rechercher par Titre du Cours</label>
-            <input #title [(ngModel)]="searchTerm" name="searchTerm" class="form-control" placeholder="Entrez le titre du cours">
-        </div>
-    </form>
-
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr> <th>Id</th><th>Titre</th> <th>Durée (heures)</th>  <th>Date de Création</th><th>Matière</th> </tr>
-                </thead>
-                <tbody *ngFor="let cours of courses | searchFilter:searchTerm">
-                    <tr>
-                        <td>{{cours.id}}</td>
-                        <td>{{cours.title}}</td>
-                        <td>{{cours.duration}}</td>
-                        <td>{{cours.createdDate | date:'dd/MM/yyyy'}}</td>
-                        <td>{{cours.matiere?.name}}</td> 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="form-group mx-sm-3 mb-2 mt-2">
+      <label for="courseTitle">Rechercher par Titre du Cours</label>
+      <input type="text" class="form-control" id="courseTitle" 
+             [(ngModel)]="searchTerm" (keyup)="onKeyUp(searchTerm)" 
+             placeholder="Entrez le titre du cours">
     </div>
-</div>
+  
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Titre</th>
+              <th>Content</th>
+              <th>Durée (Minutes)</th>
+              <th>Video URL</th>
+              <th>Date de Création</th>
+              <th>Matière</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cours of courses">
+              <td>{{cours.id}}</td>
+              <td>{{cours.title}}</td>
+              <td>{{cours.content}}</td>
+              <td>{{cours.duration}}</td>
+              <td>{{cours.videoUrl}}</td>
+              <td>{{cours.createdDate | date:'dd/MM/yyyy'}}</td>
+              <td>{{cours.matiere.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

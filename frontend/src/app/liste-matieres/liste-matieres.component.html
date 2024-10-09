@@ -1,28 +1,20 @@
 <div class="container">
     <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
-        <app-update-matiere  
-             [matiere]="updatedMatiere" 
-             [ajout]="ajout"
-             (matiereUpdated)="matiereUpdated($event)">
-        </app-update-matiere>
+      <app-update-matiere [matiere]="updatedMatiere" [ajout]="ajout" (matiereUpdated)="matiereUpdated($event)"></app-update-matiere>
     </div>
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nom Matière</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let matiere of matieres">
-                    <tr>
-                        <td>{{matiere.id}}</td>
-                        <td>{{matiere.name}}</td>
-                        <td><a class="btn btn-success" (click)="updateMatiere(matiere)">Editer</a></td>
-                    </tr>
-                </tbody>
-            </table>
+  
+    <div class="card shadow mb-4" *ngFor="let matiere of matieres">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">Id: {{matiere.id}}</div>
+          <div class="col-md-2">Code: {{matiere.code}}</div>
+          <div class="col-md-3">Nom: {{matiere.name}}</div>
+          <div class="col-md-3">Description: {{matiere.description}}</div>
+          <div class="col-md-2">Enseignant: {{matiere.teacherName}}</div>
+          <div class="col-md-2">
+            <button class="btn btn-success" (click)="updateMatiere(matiere)">Editer</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
