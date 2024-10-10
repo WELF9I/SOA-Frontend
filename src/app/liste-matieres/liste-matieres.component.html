@@ -1,0 +1,41 @@
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-header">Liste des Matières</div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Code</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Enseignant</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let matiere of matieres">
+            <td>{{matiere.id}}</td>
+            <td>{{matiere.code}}</td>
+            <td>{{matiere.name}}</td>
+            <td>{{matiere.description}}</td>
+            <td>{{matiere.teacherName}}</td>
+            <td>
+              <button class="btn btn-sm btn-primary mr-2" (click)="updateMatiere(matiere)">Editer</button>
+              <button class="btn btn-sm btn-danger" (click)="supprimerMatiere(matiere)">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="card-header">
+      {{ajout ? "Ajouter une matière" : "Modifier une matière"}}
+    </div>
+    <div class="card-body">
+      <app-update-matiere [matiere]="updatedMatiere" [ajout]="ajout" (matiereUpdated)="matiereUpdated($event)"></app-update-matiere>
+    </div>
+  </div>
+</div>
