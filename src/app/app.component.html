@@ -25,7 +25,7 @@
           <a class="dropdown-item" href="#">Lister</a>
           <a class="dropdown-item" routerLink="/rechercheParMatiere">Recherche Par Matière</a>
           <a class="dropdown-item" routerLink="/rechercheParTitle">Recherche Par Title</a>
-          <a class="dropdown-item" routerLink="/listeMatieres">Gestion des matières</a>
+          <a *ngIf="authService.isAdmin()" class="dropdown-item" routerLink="/listeMatieres">Gestion des matières</a>
         </div>
       </li>
     </ul>

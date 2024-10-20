@@ -10,21 +10,16 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   title = 'Mes Cours';
 
-  constructor(public authService: AuthService,
-              private router :Router){}
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    let isloggedin: string;
-    let loggedUser: string;
-    isloggedin = localStorage.getItem('isloggedIn')!;
-    loggedUser = localStorage.getItem('loggedUser')!;
-    if (isloggedin != "true" || !loggedUser)
+    this.authService.loadToken();
+    if (this.authService.getToken() == null || this.authService.isTokenExpired()) {
       this.router.navigate(['/login']);
-    else
-      this.authService.setLoggedUserFromLocalStorage(loggedUser);
+    }
   }
 
-  onLogout(){
+  onLogout() {
     this.authService.logout();
   }
 }
