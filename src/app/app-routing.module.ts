@@ -8,10 +8,14 @@ import { coursGuard } from './guards/cours.guard';
 import { CoursesComponent } from './courses/courses.component';
 import { RechercheParMatiereComponent } from './recherche-par-matiere/recherche-par-matiere.component';
 import { RechercheParTitleComponent } from './recherche-par-title/recherche-par-title.component';
-import { UpdateCoursComponent } from './update-cours/update-cours.component';;
+import { UpdateCoursComponent } from './update-cours/update-cours.component';import { RegisterComponent } from './register/register.component';
+import { VerifEmailComponent } from './verif-email/verif-email.component';
+;
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path:'register',component:RegisterComponent},
+  { path: 'verifEmail', component: VerifEmailComponent },
   {path: "courses", component: CoursesComponent},
   {path: "add-cours", component: AddCoursComponent, canActivate: [coursGuard]},
   {path: "updateCours/:id", component: UpdateCoursComponent},

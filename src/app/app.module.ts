@@ -11,11 +11,15 @@ import { CoursesComponent } from './courses/courses.component';
 import { RechercheParMatiereComponent } from './recherche-par-matiere/recherche-par-matiere.component';
 import { UpdateMatiereComponent } from './update-matiere/update-matiere.component';
 import { UpdateCoursComponent } from './update-cours/update-cours.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RechercheParTitleComponent } from './recherche-par-title/recherche-par-title.component';
 import { SearchFilterPipe } from './search-filter.pipe';
 import { CommonModule } from '@angular/common';
-import { TokenInterceptor } from './services/token.interceptor'; // Make sure to create this file
+import { TokenInterceptor } from './services/token.interceptor';
+import { RegisterComponent } from './register/register.component';
+import { VerifEmailComponent } from './verif-email/verif-email.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,14 +33,19 @@ import { TokenInterceptor } from './services/token.interceptor'; // Make sure to
     UpdateMatiereComponent,
     UpdateCoursComponent,
     RechercheParTitleComponent,
-    SearchFilterPipe
+    SearchFilterPipe,
+    RegisterComponent,
+    VerifEmailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    CommonModule
+    ReactiveFormsModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [
     provideClientHydration(),

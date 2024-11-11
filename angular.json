@@ -39,7 +39,8 @@
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/assets/css/shared-styles.css"
+              "src/assets/css/shared-styles.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
                 "node_modules/jquery/dist/jquery.js",

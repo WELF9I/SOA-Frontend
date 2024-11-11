@@ -19,6 +19,7 @@ export class AuthService {
   public loggedUser!: string;
   public isloggedIn: Boolean = false;
   public roles!: string[];
+  public regitredUser: User = new User();
 
   constructor(
     private router: Router,
@@ -30,14 +31,14 @@ export class AuthService {
     return this.http.post<User>(this.apiURL + '/login', user, { observe: 'response' });
   }
  
-  saveToken(jwt: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('jwt', jwt);
-    }
-    this.token = jwt;
-    this.isloggedIn = true; 
-    this.decodeJWT();
+saveToken(jwt: string) {
+  if (isPlatformBrowser(this.platformId)) {
+    localStorage.setItem('jwt', jwt);
   }
+  this.token = jwt;
+  this.isloggedIn = true; 
+  this.decodeJWT();
+}
 
   getToken(): string {
     if (isPlatformBrowser(this.platformId) && !this.token) {
@@ -69,11 +70,6 @@ export class AuthService {
       localStorage.removeItem('jwt');
     }
     this.router.navigate(['/login']);
-  }
-
-  setLoggedUserFromLocalStorage(login: string) {
-    this.loggedUser = login;
-    this.isloggedIn = true;
   }
 
   loadToken() {
@@ -116,5 +112,21 @@ export class AuthService {
       return this.refreshToken();
     }
     return of(true);
+  }
+
+  registerUser(user: User): Observable<any> {
+    return this.http.post<User>(this.apiURL + '/register', user, { observe: 'response' });
+  }
+
+  setRegistredUser(user: User) {
+    this.regitredUser = user;
+  }
+
+  getRegistredUser(): User {
+    return this.regitredUser;
+  }
+
+  validateEmail(code: string): Observable<User> {
+    return this.http.get<User>(`${this.apiURL}/verifyEmail/${code}`);
   }
 }
