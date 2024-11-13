@@ -47,6 +47,21 @@
         </div>
       </div>
 
+      <!-- Image Upload -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="mb-2">Image :</label>
+          <input type="file" (change)="onImageUpload($event)" class="form-control">
+        </div>
+      </div>
+
+      <!-- Image Preview -->
+      <div class="form-row">
+        <div class="form-group">
+          <img [src]="myImage" class="card-img-top img-fluid rounded-start" style="width: 500px; height: 300px" />
+        </div>
+      </div>
+
       <div class="form-actions">
         <button type="submit" class="btn-modern btn-modern-success">
           <i class="fas fa-save"></i>

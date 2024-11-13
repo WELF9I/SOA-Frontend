@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Matiere } from '../model/matiere.model';
 import { Cours } from '../model/cours.model';
 import { CoursService } from '../services/cours.service';
+import { Image } from "../model/image.model";
 
 @Component({
   selector: 'app-add-cours',
@@ -13,34 +14,40 @@ export class AddCoursComponent implements OnInit {
   newCours = new Cours();
   matieres!: Matiere[];
   newIdMatiere!: number;
-  
+  uploadedImage!: File;
+  imagePath: any;
+
   constructor(private coursService: CoursService,
               private router: Router) { }
 
   ngOnInit(): void {
     this.coursService.listeMatieres().subscribe(mats => {
-      this.matieres = mats;  
+      this.matieres = mats;
       console.log(mats);
     });
   }
 
-  addCours() {
-    this.newCours.matiere = this.matieres.find(mat => mat.id == this.newIdMatiere)!;
-    
-    // Set the createdDate to the current date and time
+  addCours() { 
     this.newCours.createdDate = new Date().toISOString();
-  
-    console.log('Adding cours:', this.newCours);
 
-    this.coursService.ajouterCours(this.newCours).subscribe(
-      cours => {
-        console.log('Cours added successfully:', cours);
-        this.router.navigate(['courses']);
-      },
-      error => {
-        console.error('Error adding cours:', error);
-        // Handle the error appropriately
-      }
-    );
+    this.coursService
+        .uploadImage(this.uploadedImage, this.uploadedImage.name)
+        .subscribe((img: Image) => { 
+            this.newCours.image = img; 
+            this.newCours.matiere = this.matieres.find(m => m.id == this.newIdMatiere)!;
+
+            this.coursService
+                .ajouterCours(this.newCours)
+                .subscribe(() => { 
+                    this.router.navigate(['courses']); 
+                }); 
+        }); 
+}
+
+  onImageUpload(event: any) {
+    this.uploadedImage = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadedImage);
+    reader.onload = (_event) => { this.imagePath = reader.result; }
   }
 }

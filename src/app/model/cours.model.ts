@@ -1,5 +1,5 @@
 import { Matiere } from "./matiere.model";
-
+import { Image } from "./image.model";
 export class Cours {
     id!: number;
     title!: string;
@@ -8,4 +8,6 @@ export class Cours {
     createdDate!: string;
     videoUrl!: string;
     matiere!: Matiere; 
+    image! : Image
+    imageStr!:string
 }

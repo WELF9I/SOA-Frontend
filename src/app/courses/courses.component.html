@@ -15,6 +15,7 @@
                         <th>Video URL</th>
                         <th>Date</th>
                         <th>Matière</th>
+                        <th>Image</th>
                         <th *ngIf="authService.isAdmin()">Actions</th>
                     </tr>
                 </thead>
@@ -40,6 +41,10 @@
                         <td>
                             <span class="badge badge-primary">{{cours.matiere.name}}</span>
                         </td>
+                        <td><img class="card-img-top img-responsive"
+                            src = "{{cours.imageStr}}"
+                            style = "height :50px;width:100px">
+                            </td>
                         <td *ngIf="authService.isAdmin()" class="action-buttons">
                             <button class="btn-modern btn-modern-edit" [routerLink]="['/updateCours',cours.id]">
                                 <i class="fas fa-edit"></i>

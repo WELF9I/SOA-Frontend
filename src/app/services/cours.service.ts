@@ -2,17 +2,24 @@ import { Injectable } from '@angular/core';
 import { Matiere } from '../model/matiere.model';
 import { Cours } from '../model/cours.model';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Image } from '../model/image.model'; 
 
-const apiURL = 'http://localhost:8080/api';
 
+const httpOptions = {
+  headers: new HttpHeaders( {'Content-Type': 'application/json'} )
+  };
+
+  const apiURL = 'http://localhost:8080/api';
 @Injectable({
   providedIn: 'root'
 })
 export class CoursService {
-  
+  imageAPI:string=apiURL+ '/image'
   apiURLCours: string = apiURL + '/cours';
   apiURLMatiere: string = apiURL + '/matieres';
+  courses: Cours[] = [];
+  matieres: Matiere[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -77,4 +84,32 @@ export class CoursService {
   sortMatieresByName(): Observable<Matiere[]> {
     return this.http.get<Matiere[]>(`${this.apiURLMatiere}/sort`);
   }
+
+  uploadImage(file: File, filename: string): Observable<Image>{ 
+    const imageFormData = new FormData(); 
+    imageFormData.append('image', file, filename); 
+    const url = `${this.imageAPI + '/upload'}`; 
+    return this.http.post<Image>(url, imageFormData); 
+ }
+
+  uploadImageCours(file: File, filename: string, idProd:number): Observable<any>{ 
+    const imageFormData = new FormData(); 
+    imageFormData.append('image', file, filename); 
+    const url = `${this.imageAPI + '/uplaodImageCours'}/${idProd}`; 
+    return this.http.post(url, imageFormData); 
+  }
+  supprimerImage(id : number) { 
+    const url = `${this.imageAPI}/delete/${id}`; 
+    return this.http.delete(url, httpOptions); 
+    } 
+    uploadImageFS(file: File, filename: string, idProd : number): Observable<any>{
+      const imageFormData = new FormData();
+      imageFormData.append('image', file, filename);
+      const url = `${this.imageAPI + '/uploadFS'}/${idProd}`;
+      return this.http.post(url, imageFormData);
+    }
+    loadImage(id: number): Observable<Image> {
+    const url = `${apiURL+ '/image/get/info'}/${id}`;
+    return this.http.get<Image>(url);
+    }
 }

@@ -3,7 +3,7 @@ import { Cours } from '../model/cours.model';
 import { AuthService } from '../services/auth.service';
 import { CoursService } from '../services/cours.service';
 import { switchMap } from 'rxjs/operators';
-
+import { Image } from "../model/image.model";
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html'
@@ -25,8 +25,24 @@ export class CoursesComponent implements OnInit {
       switchMap(() => this.coursService.listeCours())
     ).subscribe({
       next: (coursList) => {
-        console.log(coursList);
         this.courses = coursList;
+        this.courses.forEach((cours) => {
+          if (cours.image && cours.image.idImage) {
+            this.coursService
+              .loadImage(cours.image.idImage)
+              .subscribe({
+                next: (img: Image) => {
+                  cours.imageStr = 'data:' + img.type + ';base64,' + img.image;
+                },
+                error: (err) => {
+                  console.error(`Error loading image for course ${cours.id}:`, err);
+                  cours.imageStr = ''; // Set a default empty string or placeholder
+                }
+              });
+          } else {
+            cours.imageStr = ''; // Set a default empty string or placeholder for courses without images
+          }
+        });
       },
       error: (error) => {
         console.error('Error loading courses:', error);

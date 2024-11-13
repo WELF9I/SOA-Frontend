@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Matiere } from '../model/matiere.model';
 import { Cours } from '../model/cours.model';
 import { CoursService } from '../services/cours.service';
+import { Image } from "../model/image.model";
 
 @Component({
   selector: 'app-update-cours',
@@ -10,14 +11,18 @@ import { CoursService } from '../services/cours.service';
   styles: []
 })
 export class UpdateCoursComponent implements OnInit {
-
   currentCours = new Cours();
   matieres!: Matiere[];
   updatedMatiereId!: number;
+  myImage! : string;
+  uploadedImage!: File;
+  isImageUpdated: Boolean = false;
   
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private coursService: CoursService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private coursService: CoursService
+  ) { }
 
   ngOnInit(): void {
     this.coursService.listeMatieres().subscribe(mats => {
@@ -25,29 +30,45 @@ export class UpdateCoursComponent implements OnInit {
       console.log(mats);
     });
 
-    this.coursService.consulterCours(this.activatedRoute.snapshot.params['id']).subscribe(cours => {
-      this.currentCours = cours;
-      this.updatedMatiereId = this.currentCours.matiere.id; 
-    });
+    this.coursService.consulterCours(this.activatedRoute.snapshot.params['id'])
+      .subscribe(cours => { 
+        this.currentCours = cours; 
+        this.updatedMatiereId = cours.matiere.id; 
+        
+        if (this.currentCours.image && this.currentCours.image.idImage) {
+          this.coursService.loadImage(this.currentCours.image.idImage)
+            .subscribe((img: Image) => { 
+              this.myImage = 'data:' + img.type + ';base64,' + img.image; 
+            });
+        }     
+      });
   }
 
   updateCours() {
-    // Set the current date and time
-    this.currentCours.createdDate = new Date().toISOString();
+    this.currentCours.matiere = this.matieres.find(m => m.id == this.updatedMatiereId)!;
+    
+    if (this.isImageUpdated) {
+      this.coursService.uploadImageFS(this.uploadedImage, this.uploadedImage.name, this.currentCours.id)
+        .subscribe(updatedCours => {
+          this.router.navigate(['courses']);
+        });
+    } else {
+      this.coursService.updateCours(this.currentCours)
+        .subscribe(() => {
+          this.router.navigate(['courses']);
+        });
+    }
+  }
 
-    this.currentCours.matiere = this.matieres.find(mat => mat.id == this.updatedMatiereId)!;
-    
-    console.log('Updating cours:', this.currentCours);
-    
-    this.coursService.updateCours(this.currentCours).subscribe(
-      cours => {
-        console.log('Course updated successfully:', cours);
-        this.router.navigate(['courses']);
-      },
-      error => {
-        console.error('Error updating course:', error);
-        // Handle the error appropriately
+  onImageUpload(event: any) {
+    if(event.target.files && event.target.files.length) {
+      this.uploadedImage = event.target.files[0];
+      this.isImageUpdated = true;
+      const reader = new FileReader();
+      reader.readAsDataURL(this.uploadedImage);
+      reader.onload = () => { 
+        this.myImage = reader.result as string;
       }
-    );
+    }
   }
 }
