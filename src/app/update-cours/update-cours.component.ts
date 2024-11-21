@@ -11,64 +11,65 @@ import { Image } from "../model/image.model";
   styles: []
 })
 export class UpdateCoursComponent implements OnInit {
+
   currentCours = new Cours();
-  matieres!: Matiere[];
-  updatedMatiereId!: number;
-  myImage! : string;
-  uploadedImage!: File;
+  matieres!: Matiere[]; 
+  updatedMatiereId!: number; 
+  myImage! : string; 
+  uploadedImage!: File; 
   isImageUpdated: Boolean = false;
-  
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private coursService: CoursService
-  ) { }
+
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private coursService: CoursService) { }
 
   ngOnInit(): void {
     this.coursService.listeMatieres().subscribe(mats => {
-      this.matieres = mats;
-      console.log(mats);
-    });
-
+      this.matieres = mats; 
+    }); 
+ 
     this.coursService.consulterCours(this.activatedRoute.snapshot.params['id'])
-      .subscribe(cours => { 
+      .subscribe(cours => {
         this.currentCours = cours; 
         this.updatedMatiereId = cours.matiere.id; 
-        
-        if (this.currentCours.image && this.currentCours.image.idImage) {
-          this.coursService.loadImage(this.currentCours.image.idImage)
-            .subscribe((img: Image) => { 
-              this.myImage = 'data:' + img.type + ';base64,' + img.image; 
-            });
-        }     
-      });
+      }); 
   }
 
   updateCours() {
-    this.currentCours.matiere = this.matieres.find(m => m.id == this.updatedMatiereId)!;
-    
-    if (this.isImageUpdated) {
-      this.coursService.uploadImageFS(this.uploadedImage, this.uploadedImage.name, this.currentCours.id)
-        .subscribe(updatedCours => {
-          this.router.navigate(['courses']);
-        });
-    } else {
-      this.coursService.updateCours(this.currentCours)
-        .subscribe(() => {
-          this.router.navigate(['courses']);
-        });
+    this.currentCours.matiere = this.matieres.find(mat => mat.id == this.updatedMatiereId)!;         
+    this.coursService.updateCours(this.currentCours).subscribe(() => { 
+      this.router.navigate(['courses']); 
+    }); 
+  }
+
+  onAddImageCours() { 
+    this.coursService.uploadImageCours(this.uploadedImage, this.uploadedImage.name, this.currentCours.id)
+      .subscribe((img: Image) => { 
+        this.currentCours.images.push(img); 
+      }); 
+  } 
+
+  supprimerImage(img: Image) { 
+    let conf = confirm("Etes-vous sûr ?"); 
+    if (conf) {
+      this.coursService.supprimerImage(img.idImage).subscribe(() => { 
+        const index = this.currentCours.images.indexOf(img, 0); 
+        if (index > -1) { 
+          this.currentCours.images.splice(index, 1); 
+        } 
+      }); 
     }
   }
 
-  onImageUpload(event: any) {
-    if(event.target.files && event.target.files.length) {
-      this.uploadedImage = event.target.files[0];
-      this.isImageUpdated = true;
-      const reader = new FileReader();
-      reader.readAsDataURL(this.uploadedImage);
+  onImageUpload(event: any) { 
+    if (event.target.files && event.target.files.length) { 
+      this.uploadedImage = event.target.files[0]; 
+      this.isImageUpdated = true; 
+      const reader = new FileReader(); 
+      reader.readAsDataURL(this.uploadedImage); 
       reader.onload = () => { 
-        this.myImage = reader.result as string;
-      }
-    }
-  }
+        this.myImage = reader.result as string;  
+      }; 
+    } 
+  } 
 }

@@ -8,6 +8,7 @@ export class Cours {
     createdDate!: string;
     videoUrl!: string;
     matiere!: Matiere; 
-    image! : Image
-    imageStr!:string
+    image! : Image;
+    imageStr!:string;
+    images!: Image[];
 }

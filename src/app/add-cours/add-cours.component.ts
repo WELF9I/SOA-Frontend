@@ -27,22 +27,20 @@ export class AddCoursComponent implements OnInit {
     });
   }
 
-  addCours() { 
+  addCours() {
+    this.newCours.matiere = this.matieres.find(m => m.id == this.newIdMatiere)!;
     this.newCours.createdDate = new Date().toISOString();
 
-    this.coursService
-        .uploadImage(this.uploadedImage, this.uploadedImage.name)
-        .subscribe((img: Image) => { 
-            this.newCours.image = img; 
-            this.newCours.matiere = this.matieres.find(m => m.id == this.newIdMatiere)!;
-
-            this.coursService
-                .ajouterCours(this.newCours)
-                .subscribe(() => { 
-                    this.router.navigate(['courses']); 
-                }); 
-        }); 
-}
+    this.coursService.ajouterCours(this.newCours).subscribe((createdCours: Cours & { id: number }) => {
+      if (this.uploadedImage) {
+        this.coursService.uploadImageCours(this.uploadedImage, this.uploadedImage.name, createdCours.id).subscribe(() => {
+          this.router.navigate(['courses']);
+        });
+      } else {
+        this.router.navigate(['courses']);
+      }
+    });
+  }
 
   onImageUpload(event: any) {
     this.uploadedImage = event.target.files[0];

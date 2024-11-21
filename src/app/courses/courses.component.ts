@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { CoursService } from '../services/cours.service';
 import { switchMap } from 'rxjs/operators';
 import { Image } from "../model/image.model";
+
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html'
@@ -27,20 +28,12 @@ export class CoursesComponent implements OnInit {
       next: (coursList) => {
         this.courses = coursList;
         this.courses.forEach((cours) => {
-          if (cours.image && cours.image.idImage) {
-            this.coursService
-              .loadImage(cours.image.idImage)
-              .subscribe({
-                next: (img: Image) => {
-                  cours.imageStr = 'data:' + img.type + ';base64,' + img.image;
-                },
-                error: (err) => {
-                  console.error(`Error loading image for course ${cours.id}:`, err);
-                  cours.imageStr = ''; // Set a default empty string or placeholder
-                }
-              });
+          // Check if there are any images and set imageStr to the first image's data
+          if (cours.images && cours.images.length > 0) {
+            const firstImage = cours.images[0];
+            cours.imageStr = 'data:' + firstImage.type + ';base64,' + firstImage.image;
           } else {
-            cours.imageStr = ''; // Set a default empty string or placeholder for courses without images
+            cours.imageStr = ''; // Set a default empty string or placeholder if no images
           }
         });
       },
